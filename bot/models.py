@@ -6,6 +6,10 @@ class User(models.Model):
         default = False,
         verbose_name = "Оплата"
     )
+    is_monthly = models.BooleanField(
+        default = False,
+        verbose_name = "Продление по месяцу(со скидкой)"
+    )
     is_vip = models.BooleanField(
         default = False,
         verbose_name = "ВИП-доступ"

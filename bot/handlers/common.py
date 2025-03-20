@@ -102,7 +102,7 @@ def other_callback_handler(call: CallbackQuery):
     admin = User.objects.filter(is_admin=True).first()
 
     bot.send_message(
-        text=f"Пользователь @{call.from_user.username} выбрал __{good}__. Свяжитесь с ним!",
+        text=f"Пользователь @{call.from_user.username} выбрал **{good}**. Свяжитесь с ним!",
         chat_id=int(admin.telegram_id),
         parse_mode="Markdown"
     )
@@ -121,8 +121,9 @@ def admin_pay_handler(call: CallbackQuery):
             else:
                 user.access_time_end += timedelta(days=int(days))
         else:
+            if not user.is_vip:
+                user.access_time_end += timedelta(days=365)  # Пока не понятно как оно работает
             user.is_vip = True
-            user.access_time_end += timedelta(days=365)  # Пока не понятно как оно работает
         user.save()
         try:
             unban_user(user)
