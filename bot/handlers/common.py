@@ -9,12 +9,20 @@ from telebot.types import (
 from bot import bot
 from bot.models import User, Goods
 from bot.texts import SUBSCRIBE_TEXT, NUMBER
-from bot.keyboards import START_BUTTONS, OTHER_BUTTONS, ADMIN_PAY
+from bot.keyboards import START_BUTTONS, OTHER_BUTTONS
+from bot.utils import get_User, access_time
 from bot.static.goods import goods
+from Transition.settings import LINK, CHAT_ID
 
 def start(message: Message):
     user_id = message.from_user.id
     user = User.objects.filter(telegram_id=user_id)
+
+    bot.send_message(
+            text = SUBSCRIBE_TEXT,
+            chat_id = user_id,
+            reply_markup = START_BUTTONS,
+        )
 
     if not user.exists():
         user = User.objects.create(
@@ -22,12 +30,14 @@ def start(message: Message):
                 access_time_end=(datetime.now() + timedelta(days=1)),
             )
         user.save()
+        bot.send_message(
+            text = f"Наш чат: {LINK}",
+            chat_id = user_id,
+        )
        
-    bot.send_message(
-        text = SUBSCRIBE_TEXT,
-        chat_id = user_id,
-        reply_markup = START_BUTTONS,
-    )
+    
+    
+
 
 def pay_handler(call: CallbackQuery):
     _, data = call.data.split("_")
@@ -64,14 +74,54 @@ def pay_sbp_handler(message: Message, data: str):
         chat_id = message.chat.id
     )
     admin = User.objects.filter(is_admin=True).first()
+
+    ADMIN_PAY = InlineKeyboardMarkup()
+    pay_accept = InlineKeyboardButton(text="Принять", callback_data=f"admin-pay_accept-{message.chat.id}-{data}")
+    pay_decline = InlineKeyboardButton(text="Отказать", callback_data=f"admin-pay_decline-{message.chat.id}-{data}")
+    ADMIN_PAY.add(pay_accept, pay_decline)
+
     data = data + " дней" if data == "7" or data == "14" or data == "30" else "VIP-доступ"
     bot.forward_message(
         chat_id = int(admin.telegram_id),
         message_id = message.id,
         from_chat_id = message.chat.id
     )
+    
     bot.send_message(
         text = f"Новая оплата!\nПользователь {message.chat.id} оплатил {data}. Вот чек!",
         chat_id = int(admin.telegram_id),
         reply_markup = ADMIN_PAY
     )
+
+def admin_pay_handler(call: CallbackQuery):
+    _, answer = call.data.split("_")
+    answer, id, days = answer.split("-")
+    user = get_User.get_user(id)
+    is_active = access_time.is_active(user)
+    if answer == "accept":
+        user.is_paid = True
+        if days == "7" or days == "14" or days == "30":
+            if not is_active:    
+                user.access_time_end = (datetime.now().replace(tzinfo=None) + timedelta(days=int(days)))
+            else:
+                user.access_time_end += timedelta(days=int(days))
+        else:
+            user.is_vip = True
+            user.access_time_end += timedelta(days=365)  # Пока не понятно как оно работает
+        user.save()
+        try:
+            unban_user(user)
+        except:
+            pass
+        bot.send_message(
+            text = f"Чек одобрен!",
+            chat_id = int(user.telegram_id),
+        )
+    else:
+        bot.send_message(
+            text = "Ваш чек не одобрен! Проверьте все и отправьте еще раз",
+            chat_id = int(user.telegram_id),
+        )
+
+def unban_user(user):
+    bot.unban_chat_member(chat_id = CHAT_ID, user_id = user.telegram_id)

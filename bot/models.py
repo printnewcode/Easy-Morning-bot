@@ -6,8 +6,14 @@ class User(models.Model):
         default = False,
         verbose_name = "Оплата"
     )
+    is_vip = models.BooleanField(
+        default = False,
+        verbose_name = "ВИП-доступ"
+    )
     is_admin = models.BooleanField(
         default = False,
+        null = True,
+        blank = True,
         verbose_name = "Админ"
     )
     telegram_id = models.CharField(

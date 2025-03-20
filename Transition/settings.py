@@ -2,7 +2,7 @@ import os
 from os import getenv
 
 import dotenv
-
+import pytz
 from telebot.types import BotCommand
 
 from pathlib import Path
@@ -120,6 +120,8 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+TZ = pytz.timezone('Europe/Moscow')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
