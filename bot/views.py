@@ -51,3 +51,4 @@ start = bot.message_handler(commands=["start"])(start)
 
 pay_handler = bot.callback_query_handler(lambda c: c.data.startswith("pay_"))(pay_handler)
 admin_pay_handler = bot.callback_query_handler(lambda c: c.data.startswith("admin-pay_"))(admin_pay_handler)
+other_callback_handler = bot.callback_query_handler(lambda c: c.data.startswith("pay-"))(other_callback_handler)
