@@ -149,6 +149,7 @@ def admin_pay_handler(call: CallbackQuery):
     bot.delete_message(message_id=call.message.id-1, chat_id=call.message.chat.id)
 
 def back_button(call: CallbackQuery):
+    bot.clear_step_handler_by_chat_id(chat_id=call.message.chat.id)
     bot.edit_message_text(
         text=SUBSCRIBE_TEXT,
         message_id=call.message.id,
