@@ -46,6 +46,7 @@ def pay_handler(call: CallbackQuery):
             text=f"Для получения доступа на {data} дней необходимо оплатить {price} руб.\nПеревод по СБП на номер {NUMBER}\nПосле этого нужно отправить фото/чек перевода сюда, следующим сообщением!",
             message_id=call.message.id,
             chat_id=call.message.chat.id,
+            reply_markup=BACK_BUTTON,
         )
         
         bot.register_next_step_handler(msg, pay_sbp_handler, data)
@@ -57,6 +58,7 @@ def pay_handler(call: CallbackQuery):
             text=f"Для получения VIP-доступа необходимо оплатить {price} руб.\nПеревод по СБП на номер {NUMBER}\nПосле этого нужно отправить фото/чек перевода сюда, следующим сообщением!",
             message_id=call.message.id,
             chat_id=call.message.chat.id,
+            reply_markup=BACK_BUTTON,
         )
         
         bot.register_next_step_handler(msg, pay_sbp_handler, data)
@@ -147,7 +149,7 @@ def admin_pay_handler(call: CallbackQuery):
 
 
 def back_button(call: CallbackQuery):
-    start(message=call.message)
+    start(call.message)
 
 
 def unban_user(user):
