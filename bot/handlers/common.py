@@ -40,38 +40,36 @@ def start(message: Message):
 def pay_handler(call: CallbackQuery):
     _, data = call.data.split("_")
     if data == "7" or data == "14" or data == "30":
-        BACK_BUTTON.add(back)
+        
         price = goods.get(data)  # Получаем цену
         msg = bot.edit_message_text(
             text=f"Для получения доступа на {data} дней необходимо оплатить {price} руб.\nПеревод по СБП на номер {NUMBER}\nПосле этого нужно отправить фото/чек перевода сюда, следующим сообщением!",
             message_id=call.message.id,
             chat_id=call.message.chat.id,
-            reply_markup=BACK_BUTTON,
         )
-        BACK_BUTTON.remove(back)
+        
         bot.register_next_step_handler(msg, pay_sbp_handler, data)
 
     if data == "vip":
-        BACK_BUTTON.add(back)
+        
         price = goods.get("vip")
         msg = bot.edit_message_text(
             text=f"Для получения VIP-доступа необходимо оплатить {price} руб.\nПеревод по СБП на номер {NUMBER}\nПосле этого нужно отправить фото/чек перевода сюда, следующим сообщением!",
             message_id=call.message.id,
             chat_id=call.message.chat.id,
-            reply_markup=BACK_BUTTON,
         )
-        BACK_BUTTON.remove(back)
+        
         bot.register_next_step_handler(msg, pay_sbp_handler, data)
 
     if data == "other":
-        OTHER_BUTTONS.add(back)
+        
         bot.edit_message_text(
             text="Вот дополнительные услуги, которые мы можем вам оказать",
             message_id=call.message.id,
             chat_id=call.message.chat.id,
             reply_markup=OTHER_BUTTONS,
         )
-        OTHER_BUTTONS.remove(back)
+        
 
 
 def pay_sbp_handler(message: Message, data: str):
