@@ -23,6 +23,9 @@ other_individual_exc = InlineKeyboardButton(text="Купить индивиду�
 other_training = InlineKeyboardButton(text="Купить пакет тренировки + питание", callback_data="pay-other_training")
 OTHER_BUTTONS.add(other_easy_15).add(other_individual_exc).add(other_training)
 
+BACK_BUTTON = InlineKeyboardMarkup()
+back = InlineKeyboardButton(text="Назад", callback_data="back")
+
 "Admin"
 
 ADMIN_PAY = InlineKeyboardMarkup()
