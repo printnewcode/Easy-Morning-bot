@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.db import models
+from django.utils import timezone
 
 class User(models.Model):
     is_paid = models.BooleanField(
@@ -28,7 +29,7 @@ class User(models.Model):
         auto_now = False,
         auto_now_add = False,
         verbose_name = "Время конца доступа",
-        default = django.utils.timezone.now,
+        default = timezone.now,
     )
     def __str__(self):
         return str(self.telegram_id)
