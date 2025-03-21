@@ -6,7 +6,7 @@ from telebot.types import (
 from Transition.settings import LINK
 
 "User"
-
+back = InlineKeyboardButton(text="Назад", callback_data="back")
 START_BUTTONS = InlineKeyboardMarkup()
 seven_days = InlineKeyboardButton(text="7 дней", callback_data="pay_7")
 fourteen_days = InlineKeyboardButton(text="14 дней", callback_data="pay_14")
@@ -21,10 +21,10 @@ other_easy_15 = InlineKeyboardButton(text="Купить курс EASY 15 (дис
                                      callback_data="pay-other_easy15")
 other_individual_exc = InlineKeyboardButton(text="Купить индивидуальные занятия", callback_data="pay-other_ind")
 other_training = InlineKeyboardButton(text="Купить пакет тренировки + питание", callback_data="pay-other_training")
-OTHER_BUTTONS.add(other_easy_15).add(other_individual_exc).add(other_training)
+OTHER_BUTTONS.add(other_easy_15).add(other_individual_exc).add(other_training).add(back)
 
 BACK_BUTTON = InlineKeyboardMarkup()
-back = InlineKeyboardButton(text="Назад", callback_data="back")
+
 BACK_BUTTON.add(back)
 
 "Admin"

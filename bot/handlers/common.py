@@ -150,7 +150,7 @@ def admin_pay_handler(call: CallbackQuery):
 def back_button(call: CallbackQuery):
     bot.edit_message_text(
         text=SUBSCRIBE_TEXT,
-        chat_id=call.message.from_user.id,
+        chat_id=call.message.chat.id,
         reply_markup=START_BUTTONS,
     )
 
