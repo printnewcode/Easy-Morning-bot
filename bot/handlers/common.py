@@ -48,6 +48,7 @@ def pay_handler(call: CallbackQuery):
             chat_id=call.message.chat.id,
             reply_markup=BACK_BUTTON,
         )
+        BACK_BUTTON.remove(back)
         bot.register_next_step_handler(msg, pay_sbp_handler, data)
 
     if data == "vip":
@@ -59,6 +60,7 @@ def pay_handler(call: CallbackQuery):
             chat_id=call.message.chat.id,
             reply_markup=BACK_BUTTON,
         )
+        BACK_BUTTON.remove(back)
         bot.register_next_step_handler(msg, pay_sbp_handler, data)
 
     if data == "other":
@@ -69,6 +71,7 @@ def pay_handler(call: CallbackQuery):
             chat_id=call.message.chat.id,
             reply_markup=OTHER_BUTTONS,
         )
+        OTHER_BUTTONS.remove(back)
 
 
 def pay_sbp_handler(message: Message, data: str):
