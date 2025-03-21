@@ -145,7 +145,7 @@ def admin_pay_handler(call: CallbackQuery):
             text="Ваш чек не одобрен! Проверьте все и отправьте еще раз",
             chat_id=int(user.telegram_id),
         )
-
+    bot.delete_message(message_id=call.message.id, chat_id=call.message.chat.id)
 
 def back_button(call: CallbackQuery):
     bot.edit_message_text(

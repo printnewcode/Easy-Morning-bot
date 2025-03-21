@@ -19,7 +19,7 @@ class Command(BaseCommand):
             if not is_active:
                 bot.ban_chat_member(chat_id=CHAT_ID, user_id=int(user.telegram_id), revoke_messages=False)
                 bot.send_message(
-                    chat_id=CHAT_ID,
+                    chat_id=int(user.telegram_id),
                     text="Ваш доступ к нашей беседе закончился. Продлите его, оплатив подписку",
                     reply_markup=START_BUTTONS,
                 )
