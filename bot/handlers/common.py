@@ -6,8 +6,8 @@ from telebot.types import (
     InlineKeyboardMarkup,
     CallbackQuery,
     Message,
+    InputFile
 )
-from telegram import InputFile
 
 from bot import bot
 from bot.models import User, Goods
