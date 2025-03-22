@@ -258,11 +258,15 @@ def admin_pay_handler(call: CallbackQuery):
 
 def back_button(call: CallbackQuery):
     bot.clear_step_handler_by_chat_id(chat_id=call.message.chat.id)
+    video = os.path.join(os.path.dirname(__file__), "..", "files", "enter.mp4")
+    with open(video, "rb") as video_note:
+        bot.send_video_note(call.message.chat.id, video_note)
+
     bot.edit_message_text(
-        text=SUBSCRIBE_TEXT,
-        message_id=call.message.id,
+        text="Выбери, что тебя интересует!",
         chat_id=call.message.chat.id,
-        reply_markup=START_BUTTONS,
+        message_id=call.message.id,
+        reply_markup=ENTER_BUTTONS,
     )
 
 
