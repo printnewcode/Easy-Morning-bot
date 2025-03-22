@@ -9,7 +9,7 @@ class User(models.Model):
     )
     username = models.CharField(
         default="none",
-        max_lenght=100
+        max_length=100
     )
     is_monthly = models.BooleanField(
         default = False,
