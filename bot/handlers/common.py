@@ -66,9 +66,9 @@ def pay_handler(call: CallbackQuery):
         if data == "30":
             try:
                 if get_User.get_user(id=call.message.chat.id).is_monthly:
-                    price = price[1]
+                    price = price[0][1]
             except:
-                price = price[0]
+                price = price[0][0]
         msg = bot.edit_message_text(
             text=f"Для получения доступа на {data} дней необходимо оплатить {price} руб.\nПеревод по СБП на номер {NUMBER}\nПосле этого нужно отправить фото/чек перевода сюда, следующим сообщением!",
             message_id=call.message.id,
@@ -101,6 +101,15 @@ def pay_handler(call: CallbackQuery):
 
 
 def pay_sbp_handler(message: Message, data: str):
+    if message.text == "/start":
+        bot.clear_step_handler_by_chat_id(chat_id=message.chat.id)
+        bot.edit_message_text(
+            text=SUBSCRIBE_TEXT,
+            message_id=message.id,
+            chat_id=message.chat.id,
+            reply_markup=START_BUTTONS,
+        )
+        return
     bot.send_message(
         text="Чек принят! Ожидайте его проверки администратором. Если все хорошо, бот пришлет вам сообщение.",
         chat_id=message.chat.id
@@ -118,8 +127,8 @@ def pay_sbp_handler(message: Message, data: str):
         message_id=message.id,
         from_chat_id=message.chat.id
     )
-
-    text=f"Новая оплата!\nПользователь @{message.from_user.username} оплатил {data}. Вот чек!" 
+    username = get_User.get_user(message.chat.id).username
+    text=f"Новая оплата!\nПользователь @{username} оплатил {data}. Вот чек!" 
     bot.send_message(
         text=text,
         chat_id=int(admin.telegram_id),
