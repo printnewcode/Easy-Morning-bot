@@ -68,7 +68,7 @@ def pay_handler(call: CallbackQuery):
                 if get_User.get_user(id=call.message.chat.id).is_monthly:
                     price = goods.get("30_1")
             except:
-                price = price[0][0]
+                pass
         msg = bot.edit_message_text(
             text=f"Для получения доступа на {data} дней необходимо оплатить {price} руб.\nПеревод по СБП на номер {NUMBER}\nПосле этого нужно отправить фото/чек перевода сюда, следующим сообщением!",
             message_id=call.message.id,
