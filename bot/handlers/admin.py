@@ -26,7 +26,7 @@ def admin_panel(message):
     try:
         bot.send_video_note(
             chat_id=message.chat.id,
-            data="bot/files/video-note",
+            data="bot/files/video-note.mp4",
         )
     except Exception as e:
         bot.send_message(
