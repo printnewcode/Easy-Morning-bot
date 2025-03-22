@@ -8,8 +8,8 @@ from telebot.types import (
 
 from bot import bot
 from bot.models import User, Goods
-from bot.texts import SUBSCRIBE_TEXT, NUMBER
-from bot.keyboards import START_BUTTONS, OTHER_BUTTONS, back, BACK_BUTTON
+from bot.texts import SUBSCRIBE_TEXT, NUMBER, SUBSCRIPTION_TEXT, FIRST_DAY
+from bot.keyboards import START_BUTTONS, OTHER_BUTTONS, back, BACK_BUTTON, SUBSCRIPTION_BUTTONS, LINK_MENU_BUTTONS
 from bot.utils import get_User, access_time
 from bot.static.goods import goods, other_goods
 from Transition.settings import LINK, CHAT_ID
@@ -32,10 +32,25 @@ def start(message: Message):
         )
         user.save()
         bot.send_message(
-            text=f"Наш чат: {LINK}",
+            text=f" 🎁  попробуй: {LINK}",
             chat_id=user_id,
         )
 
+def menu_buttons(call: CallbackQuery):
+    """Обработка кнопок меню"""
+    _, data = call.data.split("_")
+    if data == "subscription":
+        bot.send_message(
+            text=SUBSCRIPTION_TEXT,
+            chat_id=call.message.chat.id,
+            reply_markup=SUBSCRIPTION_BUTTONS
+        )
+    if data == "link":
+        bot.send_message(
+            text=FIRST_DAY,
+            chat_id=call.message.chat.id,
+            reply_markup=LINK_MENU_BUTTONS
+        )
 
 def pay_handler(call: CallbackQuery):
     _, data = call.data.split("_")
@@ -51,7 +66,6 @@ def pay_handler(call: CallbackQuery):
         bot.register_next_step_handler(msg, pay_sbp_handler, data)
 
     if data == "vip":
-        
         price = goods.get("vip")
         msg = bot.edit_message_text(
             text=f"Для получения VIP-доступа необходимо оплатить {price} руб.\nПеревод по СБП на номер {NUMBER}\nПосле этого нужно отправить фото/чек перевода сюда, следующим сообщением!",
@@ -92,11 +106,13 @@ def pay_sbp_handler(message: Message, data: str):
         from_chat_id=message.chat.id
     )
 
+    text="Новая оплата!\nПользователь @{message.from_user.username} оплатил {data}. Вот чек!" 
     bot.send_message(
-        text=f"Новая оплата!\nПользователь {message.chat.id} оплатил {data}. Вот чек!",
+        text=text,
         chat_id=int(admin.telegram_id),
         reply_markup=ADMIN_PAY
     )
+    
 
 
 def other_callback_handler(call: CallbackQuery):
@@ -119,6 +135,7 @@ def admin_pay_handler(call: CallbackQuery):
     _, answer = call.data.split("_")
     answer, id, days = answer.split("-")
     user = get_User.get_user(id)
+    admin = User.objects.filter(is_admin=True).first()
     is_active = access_time.is_active(user)
     if answer == "accept":
         user.is_paid = True
@@ -128,9 +145,11 @@ def admin_pay_handler(call: CallbackQuery):
             else:
                 user.access_time_end += timedelta(days=int(days))
         else:
-            if not user.is_vip:
-                user.access_time_end += timedelta(days=365)  # Пока не понятно как оно работает
+            user.access_time_end += timedelta(days=30)  # Пока не понятно как оно работает
             user.is_vip = True
+            bot.send_message(
+                text=f"Пользователь @{call.message.from_user.username} оплатил Ultimate. Свяжитесь с ним! (Посмотреть список приобретших можно в /admin)"
+            )
         user.save()
         try:
             unban_user(user)
