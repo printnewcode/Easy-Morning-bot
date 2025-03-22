@@ -30,6 +30,7 @@ def start(message: Message):
             telegram_id=user_id,
             access_time_end=(datetime.now() + timedelta(days=1)),
         )
+        user.save()
         bot.send_message(
             text=f" 🎁  попробуй: {LINK}",
             chat_id=user_id,
