@@ -26,7 +26,7 @@ def admin_permission(func):
 @admin_permission
 def admin_panel(message):
     try:
-        video = os.path.join("bot", "files", "video-note.mp4")
+        video = os.path.join("..", "files", "video-note.mp4")
         with open(video, "rb") as video_note:
             bot.send_video_note(message.chat.id, video_note)
     except Exception as e:
