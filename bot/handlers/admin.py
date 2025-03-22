@@ -33,8 +33,8 @@ def check_ultimate(call):
     vip_users = User.objects.filter(is_vip=True)
     text=""
     for vip in vip_users:
-        name = get_User.get_user(vip.telegram_id)
-        text += f"@{name}\n"
+        name = get_User.get_user(vip.telegram_id).first()
+        text += f"@{name.username}\n"
     bot.send_message(
         text=f"{vip_users}",
         chat_id=call.message.chat.id,
