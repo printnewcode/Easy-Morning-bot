@@ -72,7 +72,7 @@ def menu_buttons(call: CallbackQuery):
     """Обработка кнопок меню"""
     _, data = call.data.split("_")
     bot.delete_message(
-        message_id=call.message.chat.id-1,
+        message_id=call.message.id-1,
         chat_id=call.message.chat.id
         )
     if data == "project":
