@@ -65,7 +65,7 @@ def pay_handler(call: CallbackQuery):
         price = goods.get(data)
         if data == "30":
             try:
-                if get_User.get_user(id=call.message.from_user.id).is_monthly:
+                if get_User.get_user(id=call.message.chat.id).is_monthly:
                     price = price[1]
             except:
                 price = price[0]
