@@ -36,6 +36,6 @@ def check_ultimate(call):
         name = get_User.get_user(vip.telegram_id)
         text += f"@{name.username}\n"
     bot.send_message(
-        text=f"{vip_users}",
+        text=text,
         chat_id=call.message.chat.id,
     )
