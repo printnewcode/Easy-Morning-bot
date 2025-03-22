@@ -29,7 +29,7 @@ OTHER_BUTTONS = InlineKeyboardMarkup()
 other_easy_15 = InlineKeyboardButton(text="Купить курс EASY 15 (дисциплина и тренировки для всего тела)",
                                      url="https://tvorimtelom.ru/easy15")
 other_individual_exc = InlineKeyboardButton(text="Купить индивидуальные занятия", url="https://tvorimtelom.ru/go")
-other_contact = InlineKeyboardButton(text="Связаться со мной", url = "https://tvorimtelom.ru/go")
+other_contact = InlineKeyboardButton(text="Связаться со мной", url = "https://t.me/valeri_zhara")
 OTHER_BUTTONS.add(other_easy_15).add(other_individual_exc).add(other_contact).add(back)
 
 BACK_BUTTON = InlineKeyboardMarkup()
