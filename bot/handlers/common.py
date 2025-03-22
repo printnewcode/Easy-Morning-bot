@@ -36,8 +36,9 @@ def start(message: Message):
             text=f" 🎁  попробуй: {LINK}",
             chat_id=user_id,
         )
-    user.first().username = message.from_user.username
-    user.first().save()
+    else:
+        user.first().username = message.from_user.username
+        user.first().save()
 
 def menu_buttons(call: CallbackQuery):
     """Обработка кнопок меню"""
