@@ -66,7 +66,7 @@ def pay_handler(call: CallbackQuery):
         if data == "30":
             try:
                 if get_User.get_user(id=call.message.chat.id).is_monthly:
-                    price = price[0][1]
+                    price = goods.get("30_1")
             except:
                 price = price[0][0]
         msg = bot.edit_message_text(
@@ -103,9 +103,8 @@ def pay_handler(call: CallbackQuery):
 def pay_sbp_handler(message: Message, data: str):
     if message.text == "/start":
         bot.clear_step_handler_by_chat_id(chat_id=message.chat.id)
-        bot.edit_message_text(
+        bot.send_message(
             text=SUBSCRIBE_TEXT,
-            message_id=message.id,
             chat_id=message.chat.id,
             reply_markup=START_BUTTONS,
         )
