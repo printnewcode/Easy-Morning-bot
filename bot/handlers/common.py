@@ -61,7 +61,6 @@ def menu_buttons(call: CallbackQuery):
 def pay_handler(call: CallbackQuery):
     _, data = call.data.split("_")
     if data == "7" or data == "14" or data == "30":
-        
         price = goods.get(data)
         if data == "30":
             try:
