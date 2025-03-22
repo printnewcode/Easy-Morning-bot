@@ -23,6 +23,16 @@ def admin_permission(func):
 
 @admin_permission
 def admin_panel(message):
+    try:
+        bot.send_video_note(
+            chat_id=message.chat.id,
+            data="bot/files/video-note",
+        )
+    except Exception as e:
+        bot.send_message(
+            text=e,
+            chat_id=message.chat.id
+        )
     bot.send_message(
         text="Добро пожаловать в Админ-панель!",
         chat_id=message.chat.id,
