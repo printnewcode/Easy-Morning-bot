@@ -24,18 +24,18 @@ def start(message: Message):
         chat_id=user_id,
         reply_markup=START_BUTTONS,
     )
-
+    
     if not user.exists():
         user = User.objects.create(
             telegram_id=user_id,
             access_time_end=(datetime.now() + timedelta(days=1)),
-            username=message.from_user.username,
         )
-        user.save()
         bot.send_message(
             text=f" 🎁  попробуй: {LINK}",
             chat_id=user_id,
         )
+    user.username = message.from_user.username
+    user.save()
 
 def menu_buttons(call: CallbackQuery):
     """Обработка кнопок меню"""
