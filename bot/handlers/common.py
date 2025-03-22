@@ -83,8 +83,8 @@ def menu_buttons(call: CallbackQuery):
         bot.edit_message_text(
             message_id=call.message.id,
             text=EASY_M_TEXT,
+            chat_id=call.message.chat.id,
             reply_markup=SUBSCRIPTION_BUTTONS,
-            chat_id=call.message.chat.id
         )
     if data == "course":
         video = os.path.join(os.path.dirname(__file__), "..", "files", "course.mp4")
@@ -93,8 +93,8 @@ def menu_buttons(call: CallbackQuery):
         bot.edit_message_text(
             message_id=call.message.id,
             text="Быстрее начинай курс!",
+            chat_id=call.message.chat.id,
             reply_markup=EASY_15,
-            chat_id=call.message.chat.id
         )
     if data == "ind-exc":
         video = os.path.join(os.path.dirname(__file__), "..", "files", "contact.mp4")
@@ -103,8 +103,8 @@ def menu_buttons(call: CallbackQuery):
         bot.edit_message_text(
             message_id=call.message.id,
             text="Связаться со мной и получить обратную связь!",
+            chat_id=call.message.chat.id,
             reply_markup=CONTACT_BUTTONS,
-            chat_id=call.message.chat.id
         )
     
     """if data == "subscription":
