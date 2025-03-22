@@ -8,7 +8,8 @@ class User(models.Model):
         verbose_name = "Оплата"
     )
     username = models.CharField(
-        default="none"
+        default="none",
+        max_lenght=100
     )
     is_monthly = models.BooleanField(
         default = False,
