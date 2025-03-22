@@ -10,7 +10,7 @@ back = InlineKeyboardButton(text="Назад", callback_data="back")
 START_BUTTONS = InlineKeyboardMarkup()
 subscription = InlineKeyboardButton(text="Покупка доступа к чату", callback_data="menu_subscription")
 other = InlineKeyboardButton(text="Другое", callback_data="pay_other")
-link = InlineKeyboardButton(text="🎁  попробуй", callback_data="menu_link")
+link = InlineKeyboardButton(text="🎁  попробуй", url=LINK)
 START_BUTTONS.add(subscription).add(other).add(link)
 
 SUBSCRIPTION_BUTTONS = InlineKeyboardMarkup()
@@ -18,7 +18,7 @@ seven_days = InlineKeyboardButton(text="7 дней", callback_data="pay_7")
 fourteen_days = InlineKeyboardButton(text="14 дней", callback_data="pay_14")
 month = InlineKeyboardButton(text="1 месяц", callback_data="pay_30")
 vip_access = InlineKeyboardButton(text="🔥 Ultimate", callback_data="pay_vip")
-SUBSCRIPTION_BUTTONS.add(seven_days, fourteen_days, month).add(vip_access).add(back)
+SUBSCRIPTION_BUTTONS.add(seven_days, fourteen_days, month).add(vip_access).add(link).add(back)
 
 LINK_MENU_BUTTONS = InlineKeyboardMarkup()
 link_url = InlineKeyboardButton(text="Перейти в чат", url=LINK)
@@ -26,7 +26,7 @@ LINK_MENU_BUTTONS.add(link_url).add(back)
 
 
 OTHER_BUTTONS = InlineKeyboardMarkup()
-other_easy_15 = InlineKeyboardButton(text="Купить курс EASY 15 (дисциплина и тренировки для всего тела)",
+other_easy_15 = InlineKeyboardButton(text="Курс EASY 15",
                                      url="https://tvorimtelom.ru/easy15")
 other_individual_exc = InlineKeyboardButton(text="Купить индивидуальные занятия", url="https://tvorimtelom.ru/go")
 other_contact = InlineKeyboardButton(text="Связаться со мной", url = "https://t.me/valeri_zhara")
@@ -35,6 +35,17 @@ OTHER_BUTTONS.add(other_easy_15).add(other_individual_exc).add(other_contact).ad
 BACK_BUTTON = InlineKeyboardMarkup()
 BACK_BUTTON.add(back)
 
+CONTACT_BUTTONS = InlineKeyboardMarkup()
+CONTACT_BUTTONS.add(other_contact)
+
+ENTER_BUTTONS = InlineKeyboardMarkup()
+project_button = InlineKeyboardButton(text="🧘🏻‍♀️ Easy Morning", callback_data="enter_project")
+course_button = InlineKeyboardButton(text="Курс Easy 15", callback_data="enter_course")
+individual_exc = InlineKeyboardButton(text="Индивидуальные занятия", callback_data="enter_ind-exc")
+ENTER_BUTTONS.add(project_button).add(course_button).add(individual_exc)
+
+EASY_15 = InlineKeyboardMarkup()
+EASY_15.add(other_easy_15).add(back)
 "Admin"
 
 ADMIN_PAY = InlineKeyboardMarkup()

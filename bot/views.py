@@ -50,7 +50,7 @@ def index(request: HttpRequest) -> JsonResponse:
 start = bot.message_handler(commands=["start"])(start)
 admin = bot.message_handler(commands=["admin"])(admin_panel)
 
-menu_buttons = bot.callback_query_handler(lambda c: c.data.startswith("menu_"))(menu_buttons)
+menu_buttons = bot.callback_query_handler(lambda c: c.data.startswith("enter_"))(menu_buttons)
 check_ultimate = bot.callback_query_handler(lambda c: c.data == "admin_vip")(check_ultimate)
 pay_handler = bot.callback_query_handler(lambda c: c.data.startswith("pay_"))(pay_handler)
 admin_pay_handler = bot.callback_query_handler(lambda c: c.data.startswith("admin-pay_"))(admin_pay_handler)

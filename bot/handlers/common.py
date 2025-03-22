@@ -1,3 +1,5 @@
+import os
+
 from datetime import datetime, timedelta
 from telebot.types import (
     InlineKeyboardButton,
@@ -5,11 +7,12 @@ from telebot.types import (
     CallbackQuery,
     Message,
 )
+from telegram import InputFile
 
 from bot import bot
 from bot.models import User, Goods
-from bot.texts import SUBSCRIBE_TEXT, NUMBER, SUBSCRIPTION_TEXT, FIRST_DAY
-from bot.keyboards import START_BUTTONS, OTHER_BUTTONS, back, BACK_BUTTON, SUBSCRIPTION_BUTTONS, LINK_MENU_BUTTONS
+from bot.texts import SUBSCRIBE_TEXT, NUMBER, SUBSCRIPTION_TEXT, FIRST_DAY, EASY_M_TEXT
+from bot.keyboards import START_BUTTONS, OTHER_BUTTONS, back, BACK_BUTTON, SUBSCRIPTION_BUTTONS, LINK_MENU_BUTTONS, ENTER_BUTTONS, EASY_15, CONTACT_BUTTONS
 from bot.utils import get_User, access_time
 from bot.static.goods import goods, other_goods
 from Transition.settings import LINK, CHAT_ID
@@ -19,12 +22,27 @@ def start(message: Message):
     user_id = message.from_user.id
     user = User.objects.filter(telegram_id=user_id)
 
+    video = os.path.join(os.path.dirname(__file__), "..", "files", "enter.mp4")
+    with open(video, "rb") as video_note:
+        bot.send_video_note(message.chat.id, video_note)
+
     bot.send_message(
+        text="Выбери, что тебя интересует!",
+        chat_id=user_id,
+        reply_markup=ENTER_BUTTONS,
+    )
+
+    """bot.send_message(
         text=SUBSCRIBE_TEXT,
         chat_id=user_id,
         reply_markup=START_BUTTONS,
-    )
-    
+    )"""
+    selected_videos = [
+        os.path.join(os.path.dirname(__file__), "..", "files", "videos.mp4"),
+        os.path.join(os.path.dirname(__file__), "..", "files", "videos_2.mp4"),
+        os.path.join(os.path.dirname(__file__), "..", "files", "videos_3.mp4"),
+        os.path.join(os.path.dirname(__file__), "..", "files", "videos_4.mp4")
+    ]
     if not user.exists():
         user = User.objects.create(
             telegram_id=user_id,
@@ -32,10 +50,21 @@ def start(message: Message):
             username=message.from_user.username,
         )
         user.save()
-        bot.send_message(
+        try:
+            for video in selected_videos:
+                bot.send_video(
+                    chat_id=message.chat.id,
+                    video=InputFile(video)
+                )
+        except Exception as e:
+            bot.send_message(
+                chat_id=message.chat.id,
+                text=e
+            )
+        """bot.send_message(
             text=f"{FIRST_DAY}\n\n🎁  попробуй: {LINK}",
             chat_id=user_id,
-        )
+        )"""
     else:
         user.first().username = message.from_user.username
         user.first().save()
@@ -43,7 +72,42 @@ def start(message: Message):
 def menu_buttons(call: CallbackQuery):
     """Обработка кнопок меню"""
     _, data = call.data.split("_")
-    if data == "subscription":
+    bot.delete_message(
+        message_id=call.message.chat.id-1,
+        chat_id=call.message.chat.id
+        )
+    if data == "project":
+        video = os.path.join(os.path.dirname(__file__), "..", "files", "project.mp4")
+        with open(video, "rb") as video_note:
+            bot.send_video_note(call.message.chat.id, video_note)
+        bot.edit_message_text(
+            message_id=call.message.id,
+            text=EASY_M_TEXT,
+            reply_markup=SUBSCRIPTION_BUTTONS,
+            chat_id=call.message.chat.id
+        )
+    if data == "course":
+        video = os.path.join(os.path.dirname(__file__), "..", "files", "course.mp4")
+        with open(video, "rb") as video_note:
+            bot.send_video_note(call.message.chat.id, video_note)
+        bot.edit_message_text(
+            message_id=call.message.id,
+            text="Быстрее начинай курс!",
+            reply_markup=EASY_15,
+            chat_id=call.message.chat.id
+        )
+    if data == "ind-exc":
+        video = os.path.join(os.path.dirname(__file__), "..", "files", "contact.mp4")
+        with open(video, "rb") as video_note:
+            bot.send_video_note(call.message.chat.id, video_note)
+        bot.edit_message_text(
+            message_id=call.message.id,
+            text="Связаться со мной и получить обратную связь!",
+            reply_markup=CONTACT_BUTTONS,
+            chat_id=call.message.chat.id
+        )
+    
+    """if data == "subscription":
         bot.edit_message_text(
             message_id=call.message.id,
             text=SUBSCRIPTION_TEXT,
@@ -56,7 +120,7 @@ def menu_buttons(call: CallbackQuery):
             text=FIRST_DAY,
             chat_id=call.message.chat.id,
             reply_markup=LINK_MENU_BUTTONS
-        )
+        )"""
 
 def pay_handler(call: CallbackQuery):
     _, data = call.data.split("_")
@@ -81,7 +145,7 @@ def pay_handler(call: CallbackQuery):
     if data == "vip":
         price = goods.get("vip")
         msg = bot.edit_message_text(
-            text=f"Для получения VIP-доступа необходимо оплатить {price} руб.\nПеревод по СБП на номер {NUMBER}\nПосле этого нужно отправить фото/чек перевода сюда, следующим сообщением!",
+            text=f"Для получения Ultimate-доступа необходимо оплатить {price} руб.\nПеревод по СБП на номер {NUMBER}\nПосле этого нужно отправить фото/чек перевода сюда, следующим сообщением!",
             message_id=call.message.id,
             chat_id=call.message.chat.id,
             reply_markup=BACK_BUTTON,
