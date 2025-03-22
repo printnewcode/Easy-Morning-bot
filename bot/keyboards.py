@@ -22,7 +22,7 @@ SUBSCRIPTION_BUTTONS.add(seven_days, fourteen_days, month).add(vip_access).add(b
 
 LINK_MENU_BUTTONS = InlineKeyboardMarkup()
 link_url = InlineKeyboardButton(text="Перейти в чат", url=LINK)
-LINK_MENU_BUTTONS.add(link).add(back)
+LINK_MENU_BUTTONS.add(link_url).add(back)
 
 
 OTHER_BUTTONS = InlineKeyboardMarkup()
@@ -33,7 +33,6 @@ other_training = InlineKeyboardButton(text="Купить пакет тренир
 OTHER_BUTTONS.add(other_easy_15).add(other_individual_exc).add(other_training).add(back)
 
 BACK_BUTTON = InlineKeyboardMarkup()
-
 BACK_BUTTON.add(back)
 
 "Admin"
