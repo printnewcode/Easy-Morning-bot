@@ -40,13 +40,15 @@ def menu_buttons(call: CallbackQuery):
     """Обработка кнопок меню"""
     _, data = call.data.split("_")
     if data == "subscription":
-        bot.send_message(
+        bot.edit_message_text(
+            message_id=call.message.id,
             text=SUBSCRIPTION_TEXT,
             chat_id=call.message.chat.id,
             reply_markup=SUBSCRIPTION_BUTTONS
         )
     if data == "link":
-        bot.send_message(
+        bot.edit_message_text(
+            message_id=call.message.id,
             text=FIRST_DAY,
             chat_id=call.message.chat.id,
             reply_markup=LINK_MENU_BUTTONS
