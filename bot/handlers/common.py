@@ -29,6 +29,7 @@ def start(message: Message):
         user = User.objects.create(
             telegram_id=user_id,
             access_time_end=(datetime.now() + timedelta(days=1)),
+            username=message.from_user.username,
         )
         user.save()
         bot.send_message(
