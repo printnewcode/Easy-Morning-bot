@@ -21,7 +21,6 @@ from Transition.settings import LINK, CHAT_ID
 def start(message: Message):
     user_id = message.from_user.id
     user = User.objects.filter(telegram_id=user_id)
-    bot.delete_webhook()
     video = os.path.join(os.path.dirname(__file__), "..", "files", "enter.mp4")
     with open(video, "rb") as video_note:
         bot.send_video_note(message.chat.id, video_note)
