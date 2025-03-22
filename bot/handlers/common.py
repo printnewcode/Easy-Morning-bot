@@ -57,7 +57,11 @@ def menu_buttons(call: CallbackQuery):
 def pay_handler(call: CallbackQuery):
     _, data = call.data.split("_")
     if data == "7" or data == "14" or data == "30":
-        price = goods.get(data)  # Получаем цену
+        
+        price = goods.get(data)
+        if data == "30":
+            if get_User.get_user(call.message.from_user.id).is_monthly:
+                price = price[1]
         msg = bot.edit_message_text(
             text=f"Для получения доступа на {data} дней необходимо оплатить {price} руб.\nПеревод по СБП на номер {NUMBER}\nПосле этого нужно отправить фото/чек перевода сюда, следующим сообщением!",
             message_id=call.message.id,
@@ -142,12 +146,16 @@ def admin_pay_handler(call: CallbackQuery):
     if answer == "accept":
         user.is_paid = True
         if days == "7" or days == "14" or days == "30":
+            if days == "30":
+                user.is_monthly = True
+            else:
+                user.is_monthly = False
             if not is_active:
                 user.access_time_end = (datetime.now().replace(tzinfo=None) + timedelta(days=int(days)))
             else:
                 user.access_time_end += timedelta(days=int(days))
         else:
-            user.access_time_end += timedelta(days=30)  # Пока не понятно как оно работает
+            user.access_time_end += timedelta(days=30)
             user.is_vip = True
             bot.send_message(
                 text=f"Пользователь @{call.message.from_user.username} оплатил Ultimate. Свяжитесь с ним! (Посмотреть список приобретших можно в /admin)",
