@@ -33,7 +33,7 @@ def start(message: Message):
         )
         user.save()
         bot.send_message(
-            text=f" 🎁  попробуй: {LINK}",
+            text=f"{FIRST_DAY}\n\n🎁  попробуй: {LINK}",
             chat_id=user_id,
         )
     else:
