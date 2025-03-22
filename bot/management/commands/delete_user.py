@@ -23,3 +23,5 @@ class Command(BaseCommand):
                     text="Ваш доступ к нашей беседе закончился. Продлите его, оплатив подписку",
                     reply_markup=START_BUTTONS,
                 )
+                user.is_paid = False
+                user.save()
