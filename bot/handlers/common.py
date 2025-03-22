@@ -150,7 +150,8 @@ def admin_pay_handler(call: CallbackQuery):
             user.access_time_end += timedelta(days=30)  # Пока не понятно как оно работает
             user.is_vip = True
             bot.send_message(
-                text=f"Пользователь @{call.message.from_user.username} оплатил Ultimate. Свяжитесь с ним! (Посмотреть список приобретших можно в /admin)"
+                text=f"Пользователь @{call.message.from_user.username} оплатил Ultimate. Свяжитесь с ним! (Посмотреть список приобретших можно в /admin)",
+                chat_id=int(admin.telegram_id)
             )
         user.save()
         try:
