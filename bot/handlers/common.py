@@ -108,7 +108,7 @@ def pay_sbp_handler(message: Message, data: str):
         from_chat_id=message.chat.id
     )
 
-    text="Новая оплата!\nПользователь @{message.from_user.username} оплатил {data}. Вот чек!" 
+    text=f"Новая оплата!\nПользователь @{message.from_user.username} оплатил {data}. Вот чек!" 
     bot.send_message(
         text=text,
         chat_id=int(admin.telegram_id),
