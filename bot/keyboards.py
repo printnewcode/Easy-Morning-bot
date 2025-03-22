@@ -10,7 +10,7 @@ back = InlineKeyboardButton(text="Назад", callback_data="back")
 START_BUTTONS = InlineKeyboardMarkup()
 subscription = InlineKeyboardButton(text="Покупка доступа к чату", callback_data="menu_subscription")
 other = InlineKeyboardButton(text="Другое", callback_data="pay_other")
-link = InlineKeyboardButton(text="Наш чат", callback_data="menu_link")
+link = InlineKeyboardButton(text="🎁  попробуй", callback_data="menu_link")
 START_BUTTONS.add(subscription).add(other).add(link)
 
 SUBSCRIPTION_BUTTONS = InlineKeyboardMarkup()
@@ -27,10 +27,10 @@ LINK_MENU_BUTTONS.add(link_url).add(back)
 
 OTHER_BUTTONS = InlineKeyboardMarkup()
 other_easy_15 = InlineKeyboardButton(text="Купить курс EASY 15 (дисциплина и тренировки для всего тела)",
-                                     callback_data="pay-other_easy15")
-other_individual_exc = InlineKeyboardButton(text="Купить индивидуальные занятия", callback_data="pay-other_ind")
-other_training = InlineKeyboardButton(text="Купить пакет тренировки + питание", callback_data="pay-other_training")
-OTHER_BUTTONS.add(other_easy_15).add(other_individual_exc).add(other_training).add(back)
+                                     url="https://tvorimtelom.ru/easy15")
+other_individual_exc = InlineKeyboardButton(text="Купить индивидуальные занятия", url="https://tvorimtelom.ru/go")
+other_contact = InlineKeyboardButton(text="Связаться со мной", url = "https://tvorimtelom.ru/go")
+OTHER_BUTTONS.add(other_easy_15).add(other_individual_exc).add(other_contact).add(back)
 
 BACK_BUTTON = InlineKeyboardMarkup()
 BACK_BUTTON.add(back)

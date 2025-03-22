@@ -61,9 +61,8 @@ def menu_buttons(call: CallbackQuery):
 def pay_handler(call: CallbackQuery):
     _, data = call.data.split("_")
     if data == "7" or data == "14" or data == "30":
-        
+        price = goods.get(data)
         if data == "30":
-            price = goods.get(data)
             try:
                 if get_User.get_user(id=call.message.chat.id).is_monthly:
                     price = goods.get("30_1")
