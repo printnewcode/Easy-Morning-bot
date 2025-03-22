@@ -1,3 +1,5 @@
+import os
+
 from functools import wraps
 
 from bot import bot
@@ -24,10 +26,9 @@ def admin_permission(func):
 @admin_permission
 def admin_panel(message):
     try:
-        bot.send_video_note(
-            chat_id=message.chat.id,
-            data="bot/files/video-note.mp4",
-        )
+        video = os.path.join("files", "video-note.mp4")
+        with open(video, "rb") as video_note:
+            bot.send_video_note(message.chat.id, video_note)
     except Exception as e:
         bot.send_message(
             text=e,
