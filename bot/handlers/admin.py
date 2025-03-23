@@ -25,15 +25,6 @@ def admin_permission(func):
 
 @admin_permission
 def admin_panel(message):
-    try:
-        video = os.path.join(os.path.dirname(__file__), "..", "files", "video-note.mp4")
-        with open(video, "rb") as video_note:
-            bot.send_video_note(message.chat.id, video_note)
-    except Exception as e:
-        bot.send_message(
-            text=e,
-            chat_id=message.chat.id
-        )
     bot.send_message(
         text="Добро пожаловать в Админ-панель!",
         chat_id=message.chat.id,

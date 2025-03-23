@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.db import models
 from django.utils import timezone
 
@@ -33,7 +33,7 @@ class User(models.Model):
         auto_now = False,
         auto_now_add = False,
         verbose_name = "Время конца доступа",
-        default = timezone.now,
+        default = timezone.now+timedelta(days=1),
     )
     def __str__(self):
         return str(self.telegram_id)
