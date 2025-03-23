@@ -12,7 +12,7 @@ from telebot.types import (
 from bot import bot
 from bot.models import User, Goods
 from bot.texts import SUBSCRIBE_TEXT, NUMBER, SUBSCRIPTION_TEXT, FIRST_DAY, EASY_M_TEXT
-from bot.keyboards import START_BUTTONS, OTHER_BUTTONS, back, BACK_BUTTON, SUBSCRIPTION_BUTTONS, LINK_MENU_BUTTONS, ENTER_BUTTONS, EASY_15, CONTACT_BUTTONS, BACK_PAY_BUTTON
+from bot.keyboards import START_BUTTONS, OTHER_BUTTONS, back, BACK_BUTTON, SUBSCRIPTION_BUTTONS, LINK_MENU_BUTTONS, ENTER_BUTTONS, EASY_15, CONTACT_BUTTONS, BACK_PAY_BUTTON, BACK_EXAMPLE
 from bot.utils import get_User, access_time
 from bot.static.goods import goods, other_goods
 from Transition.settings import LINK, CHAT_ID, REPLY_ID
@@ -135,11 +135,17 @@ def pay_handler(call: CallbackQuery):
                 chat_id=call.message.chat.id,
                 message_ids=REPLY_ID,
             )
+            bot.send_message(
+                text="Вернуться в меню",
+                chat_id = call.message.chat.id,
+                reply_markup=BACK_EXAMPLE,
+            )
         except Exception as e:
             bot.send_message(
                 chat_id=call.message.chat.id,
-                text=e
+                text=e,
                 )
+        
     if data == "7" or data == "14" or data == "30":
         price = goods.get(data)
         if data == "30":
@@ -284,6 +290,12 @@ def back_button(call: CallbackQuery):
         reply_markup=ENTER_BUTTONS,
     )
 def back_pay_button(call: CallbackQuery):
+    _, data = call.data.split("_")
+    if data == "pay-1":
+        bot.delete_messages(
+            message_ids=[call.message.id, call.message.id-1],
+            chat_id=call.message.chat.id
+        )
     bot.delete_message(
         message_id=call.message.id,
         chat_id=call.message.chat.id,

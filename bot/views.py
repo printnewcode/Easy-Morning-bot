@@ -56,4 +56,4 @@ pay_handler = bot.callback_query_handler(lambda c: c.data.startswith("pay_"))(pa
 admin_pay_handler = bot.callback_query_handler(lambda c: c.data.startswith("admin-pay_"))(admin_pay_handler)
 other_callback_handler = bot.callback_query_handler(lambda c: c.data.startswith("pay-"))(other_callback_handler)
 back_button = bot.callback_query_handler(lambda c: c.data == "back")(back_button)
-back_pay_button = bot.callback_query_handler(lambda c: c.data == "back_pay")(back_pay_button)
+back_pay_button = bot.callback_query_handler(lambda c: c.data.startswith("back_pay"))(back_pay_button)
