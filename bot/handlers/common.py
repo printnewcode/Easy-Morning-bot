@@ -292,8 +292,9 @@ def back_button(call: CallbackQuery):
 def back_pay_button(call: CallbackQuery):
     _, data = call.data.split("_")
     if data == "pay-1":
+        # Удаление сообщения и 4 видео над ним
         bot.delete_messages(
-            message_ids=[call.message.id, call.message.id-1],
+            message_ids=[call.message.id, call.message.id-1, call.message.id-2, call.message.id-3, call.message.id-4],
             chat_id=call.message.chat.id
         )
     else:
