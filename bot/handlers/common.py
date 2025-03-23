@@ -202,7 +202,7 @@ def pay_sbp_handler(message: Message, data: str):
     pay_decline = InlineKeyboardButton(text="Отказать", callback_data=f"admin-pay_decline-{message.chat.id}-{data}")
     ADMIN_PAY.add(pay_accept, pay_decline)
 
-    data = data + " дней" if data == "7" or data == "14" or data == "30" else "VIP-доступ"
+    data = data + " дней" if data == "7" or data == "14" or data == "30" else "PRO-доступ"
     bot.forward_message(
         chat_id=int(admin.telegram_id),
         message_id=message.id,
