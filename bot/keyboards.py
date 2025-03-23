@@ -6,6 +6,10 @@ from telebot.types import (
 from Transition.settings import LINK
 
 "User"
+BACK_PAY_BUTTON = InlineKeyboardMarkup()
+back_pay_button = InlineKeyboardButton(text="Назад", callback_data="back_pay")
+BACK_PAY_BUTTON.add(back_pay_button)
+
 back = InlineKeyboardButton(text="Назад", callback_data="back")
 START_BUTTONS = InlineKeyboardMarkup()
 subscription = InlineKeyboardButton(text="Покупка доступа к чату", callback_data="menu_subscription")
@@ -35,8 +39,10 @@ OTHER_BUTTONS.add(other_easy_15).add(other_individual_exc).add(other_contact).ad
 BACK_BUTTON = InlineKeyboardMarkup()
 BACK_BUTTON.add(back)
 
+
+
 CONTACT_BUTTONS = InlineKeyboardMarkup()
-CONTACT_BUTTONS.add(other_contact)
+CONTACT_BUTTONS.add(other_contact).add(back)
 
 ENTER_BUTTONS = InlineKeyboardMarkup()
 project_button = InlineKeyboardButton(text="🧘🏻‍♀️ Easy Morning", callback_data="enter_project")

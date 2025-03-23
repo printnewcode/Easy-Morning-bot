@@ -12,7 +12,7 @@ from telebot.types import (
 from bot import bot
 from bot.models import User, Goods
 from bot.texts import SUBSCRIBE_TEXT, NUMBER, SUBSCRIPTION_TEXT, FIRST_DAY, EASY_M_TEXT
-from bot.keyboards import START_BUTTONS, OTHER_BUTTONS, back, BACK_BUTTON, SUBSCRIPTION_BUTTONS, LINK_MENU_BUTTONS, ENTER_BUTTONS, EASY_15, CONTACT_BUTTONS
+from bot.keyboards import START_BUTTONS, OTHER_BUTTONS, back, BACK_BUTTON, SUBSCRIPTION_BUTTONS, LINK_MENU_BUTTONS, ENTER_BUTTONS, EASY_15, CONTACT_BUTTONS, BACK_PAY_BUTTON
 from bot.utils import get_User, access_time
 from bot.static.goods import goods, other_goods
 from Transition.settings import LINK, CHAT_ID
@@ -71,16 +71,15 @@ def start(message: Message):
 def menu_buttons(call: CallbackQuery):
     """Обработка кнопок меню"""
     _, data = call.data.split("_")
-    bot.delete_message(
-        message_id=call.message.id-1,
+    bot.delete_messages(
+        message_ids=[call.message.id,call.message.id-1],
         chat_id=call.message.chat.id
         )
     if data == "project":
         video = os.path.join(os.path.dirname(__file__), "..", "files", "project.mp4")
         with open(video, "rb") as video_note:
             bot.send_video_note(call.message.chat.id, video_note)
-        bot.edit_message_text(
-            message_id=call.message.id,
+        bot.send_message(
             text=EASY_M_TEXT,
             chat_id=call.message.chat.id,
             reply_markup=SUBSCRIPTION_BUTTONS,
@@ -89,8 +88,7 @@ def menu_buttons(call: CallbackQuery):
         video = os.path.join(os.path.dirname(__file__), "..", "files", "course.mp4")
         with open(video, "rb") as video_note:
             bot.send_video_note(call.message.chat.id, video_note)
-        bot.edit_message_text(
-            message_id=call.message.id,
+        bot.send_message(
             text="Быстрее начинай курс!",
             chat_id=call.message.chat.id,
             reply_markup=EASY_15,
@@ -99,9 +97,8 @@ def menu_buttons(call: CallbackQuery):
         video = os.path.join(os.path.dirname(__file__), "..", "files", "contact.mp4")
         with open(video, "rb") as video_note:
             bot.send_video_note(call.message.chat.id, video_note)
-        bot.edit_message_text(
-            message_id=call.message.id,
-            text="Связаться со мной и получить обратную связь!",
+        bot.send_message(
+            text="Свяжись со мной и получи обратную связь!",
             chat_id=call.message.chat.id,
             reply_markup=CONTACT_BUTTONS,
         )
@@ -123,6 +120,10 @@ def menu_buttons(call: CallbackQuery):
 
 def pay_handler(call: CallbackQuery):
     _, data = call.data.split("_")
+    bot.delete_message(
+        message_id=call.message.id-1,
+        chat_id = call.message.chat.id,
+    )
     if data == "7" or data == "14" or data == "30":
         price = goods.get(data)
         if data == "30":
@@ -136,7 +137,7 @@ def pay_handler(call: CallbackQuery):
             text=f"Для получения доступа на {data} дней необходимо оплатить {price} руб.\nПеревод по СБП на номер {NUMBER}\nПосле этого нужно отправить фото/чек перевода сюда, следующим сообщением!",
             message_id=call.message.id,
             chat_id=call.message.chat.id,
-            reply_markup=BACK_BUTTON,
+            reply_markup=BACK_PAY_BUTTON,
         )
         
         bot.register_next_step_handler(msg, pay_sbp_handler, data)
@@ -147,7 +148,7 @@ def pay_handler(call: CallbackQuery):
             text=f"Для получения Ultimate-доступа необходимо оплатить {price} руб.\nПеревод по СБП на номер {NUMBER}\nПосле этого нужно отправить фото/чек перевода сюда, следующим сообщением!",
             message_id=call.message.id,
             chat_id=call.message.chat.id,
-            reply_markup=BACK_BUTTON,
+            reply_markup=BACK_PAY_BUTTON,
         )
         
         bot.register_next_step_handler(msg, pay_sbp_handler, data)
@@ -166,11 +167,7 @@ def pay_handler(call: CallbackQuery):
 def pay_sbp_handler(message: Message, data: str):
     if message.text == "/start":
         bot.clear_step_handler_by_chat_id(chat_id=message.chat.id)
-        bot.send_message(
-            text=SUBSCRIBE_TEXT,
-            chat_id=message.chat.id,
-            reply_markup=START_BUTTONS,
-        )
+        start(message=message)
         return
     bot.send_message(
         text="Чек принят! Ожидайте его проверки администратором. Если все хорошо, бот пришлет вам сообщение.",
@@ -261,13 +258,25 @@ def back_button(call: CallbackQuery):
     video = os.path.join(os.path.dirname(__file__), "..", "files", "enter.mp4")
     with open(video, "rb") as video_note:
         bot.send_video_note(call.message.chat.id, video_note)
-
-    bot.edit_message_text(
+    bot.send_message(
         text="Выбери, что тебя интересует!",
         chat_id=call.message.chat.id,
-        message_id=call.message.id,
         reply_markup=ENTER_BUTTONS,
     )
+def back_pay_button(call: CallbackQuery):
+    bot.delete_message(
+        message_id=call.message.id,
+        chat_id=call.message.chat.id,
+    )
+    video = os.path.join(os.path.dirname(__file__), "..", "files", "project.mp4")
+    with open(video, "rb") as video_note:
+        bot.send_video_note(call.message.chat.id, video_note)
+    bot.send_message(
+        text=EASY_M_TEXT,
+        chat_id=call.message.chat.id,
+        reply_markup=SUBSCRIPTION_BUTTONS,
+        )
+
 
 
 def unban_user(user):
