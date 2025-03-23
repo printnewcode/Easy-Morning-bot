@@ -130,7 +130,6 @@ def pay_handler(call: CallbackQuery):
                 from_chat_id=CHAT_ID,
                 chat_id=call.message.chat.id,
                 message_ids=REPLY_ID,
-                reply_markup=BACK_PAY_BUTTON,
             )
         except Exception as e:
             bot.send_message(
