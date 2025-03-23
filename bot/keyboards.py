@@ -34,7 +34,7 @@ SUBSCRIPTION_BUTTONS = InlineKeyboardMarkup()
 seven_days = InlineKeyboardButton(text="7 дней", callback_data="pay_7")
 fourteen_days = InlineKeyboardButton(text="14 дней", callback_data="pay_14")
 month = InlineKeyboardButton(text="1 месяц", callback_data="pay_30")
-vip_access = InlineKeyboardButton(text="🔥 Ultimate", callback_data="pay_vip")
+vip_access = InlineKeyboardButton(text="🔥 PRO", callback_data="pay_vip")
 example = InlineKeyboardButton(text="Отзывы", callback_data = "pay_example")
 SUBSCRIPTION_BUTTONS.add(seven_days, fourteen_days, month).add(vip_access).add(example).add(link).add(course_button).add(individual_exc).add(back)
 
@@ -69,5 +69,5 @@ pay_decline = InlineKeyboardButton(text="Отказать", callback_data="admin
 ADMIN_PAY.add(pay_accept, pay_decline)
 
 ADMIN = InlineKeyboardMarkup()
-check_vip = InlineKeyboardButton(text="Посмотреть список Ultimate-пользователей", callback_data="admin_vip")
+check_vip = InlineKeyboardButton(text="Посмотреть список PRO-пользователей", callback_data="admin_vip")
 ADMIN.add(check_vip)
