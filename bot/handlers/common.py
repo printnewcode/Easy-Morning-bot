@@ -126,6 +126,10 @@ def pay_handler(call: CallbackQuery):
     )
     if data == "example":
         try:
+            bot.delete_message(
+                message_id=call.message.id,
+                chat_id = call.message.chat.id,
+                )
             bot.forward_messages(
                 from_chat_id=CHAT_ID,
                 chat_id=call.message.chat.id,
