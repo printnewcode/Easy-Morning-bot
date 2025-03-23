@@ -30,17 +30,7 @@ def start(message: Message):
         chat_id=user_id,
         reply_markup=ENTER_BUTTONS,
     )
-    try:
-        bot.forward_messages(
-            from_chat_id=CHAT_ID,
-            chat_id=message.chat.id,
-            message_ids=REPLY_ID
-        )
-    except Exception as e:
-        bot.send_message(
-            chat_id=message.chat.id,
-            text=e
-        )
+    
     """bot.send_message(
         text=SUBSCRIBE_TEXT,
         chat_id=user_id,
@@ -134,6 +124,19 @@ def pay_handler(call: CallbackQuery):
         message_id=call.message.id-1,
         chat_id = call.message.chat.id,
     )
+    if data == "example":
+        try:
+            bot.forward_messages(
+                from_chat_id=CHAT_ID,
+                chat_id=call.message.chat.id,
+                message_ids=REPLY_ID,
+                reply_markup=BACK_PAY_BUTTON,
+            )
+        except Exception as e:
+            bot.send_message(
+                chat_id=call.message.chat.id,
+                text=e
+                )
     if data == "7" or data == "14" or data == "30":
         price = goods.get(data)
         if data == "30":
