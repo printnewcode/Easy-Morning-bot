@@ -15,7 +15,7 @@ from bot.texts import SUBSCRIBE_TEXT, NUMBER, SUBSCRIPTION_TEXT, FIRST_DAY, EASY
 from bot.keyboards import START_BUTTONS, OTHER_BUTTONS, back, BACK_BUTTON, SUBSCRIPTION_BUTTONS, LINK_MENU_BUTTONS, ENTER_BUTTONS, EASY_15, CONTACT_BUTTONS, BACK_PAY_BUTTON, BACK_EXAMPLE
 from bot.utils import get_User, access_time
 from bot.static.goods import goods, other_goods
-from Transition.settings import LINK, CHAT_ID, REPLY_ID
+from Transition.settings import LINK, CHAT_ID, REPLY_ID, OWNER_ID
 
 
 def start(message: Message):
@@ -261,8 +261,11 @@ def admin_pay_handler(call: CallbackQuery):
         user.save()
         try:
             unban_user(user)
-        except:
-            pass
+        except Exception as e:
+            bot.send_message(
+                text=e,
+                chat_id=OWNER_ID
+            )
         bot.send_message(
             text=f"Чек одобрен!",
             chat_id=int(user.telegram_id),
