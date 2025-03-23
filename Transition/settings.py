@@ -24,6 +24,7 @@ LOCAL = os.getenv('LOCAL')
 
 ALLOWED_HOSTS = ["*"]
 
+REPLY_ID = [1939818, 1939817, 1939819, 1939820]
 LINK = os.getenv("LINK")
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 OWNER_ID = os.getenv('OWNER_ID')

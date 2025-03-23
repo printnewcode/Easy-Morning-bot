@@ -15,7 +15,7 @@ from bot.texts import SUBSCRIBE_TEXT, NUMBER, SUBSCRIPTION_TEXT, FIRST_DAY, EASY
 from bot.keyboards import START_BUTTONS, OTHER_BUTTONS, back, BACK_BUTTON, SUBSCRIPTION_BUTTONS, LINK_MENU_BUTTONS, ENTER_BUTTONS, EASY_15, CONTACT_BUTTONS, BACK_PAY_BUTTON
 from bot.utils import get_User, access_time
 from bot.static.goods import goods, other_goods
-from Transition.settings import LINK, CHAT_ID
+from Transition.settings import LINK, CHAT_ID, REPLY_ID
 
 
 def start(message: Message):
@@ -30,7 +30,17 @@ def start(message: Message):
         chat_id=user_id,
         reply_markup=ENTER_BUTTONS,
     )
-
+    try:
+        bot.forward_messages(
+            from_chat_id=CHAT_ID,
+            chat_id=message.chat.id,
+            message_ids=REPLY_ID
+        )
+    except Exception as e:
+        bot.send_message(
+            chat_id=message.chat.id,
+            text=e
+        )
     """bot.send_message(
         text=SUBSCRIBE_TEXT,
         chat_id=user_id,
