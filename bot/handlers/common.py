@@ -15,7 +15,7 @@ from bot.texts import SUBSCRIBE_TEXT, NUMBER, SUBSCRIPTION_TEXT, FIRST_DAY, EASY
 from bot.keyboards import START_BUTTONS, OTHER_BUTTONS, back, BACK_BUTTON, SUBSCRIPTION_BUTTONS, LINK_MENU_BUTTONS, ENTER_BUTTONS, EASY_15, CONTACT_BUTTONS, BACK_PAY_BUTTON, BACK_EXAMPLE
 from bot.utils import get_User, access_time
 from bot.static.goods import goods, other_goods
-from Transition.settings import LINK, CHAT_ID, REPLY_ID, OWNER_ID
+from Transition.settings import LINK, CHAT_ID, REPLY_ID, OWNER_ID, REPLY_CHAT
 
 
 def start(message: Message):
@@ -131,7 +131,7 @@ def pay_handler(call: CallbackQuery):
                 chat_id = call.message.chat.id,
                 )
             bot.forward_messages(
-                from_chat_id=CHAT_ID,
+                from_chat_id=REPLY_CHAT,
                 chat_id=call.message.chat.id,
                 message_ids=REPLY_ID,
             )

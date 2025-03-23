@@ -24,6 +24,7 @@ LOCAL = os.getenv('LOCAL')
 
 ALLOWED_HOSTS = ["*"]
 
+REPLY_CHAT="-1002686227914"
 REPLY_ID = [58,59,60,61]
 LINK = os.getenv("LINK")
 BOT_TOKEN = os.getenv('BOT_TOKEN')
