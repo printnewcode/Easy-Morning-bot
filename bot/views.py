@@ -52,6 +52,7 @@ admin = bot.message_handler(commands=["admin"])(admin_panel)
 
 menu_buttons = bot.callback_query_handler(lambda c: c.data.startswith("enter_"))(menu_buttons)
 check_ultimate = bot.callback_query_handler(lambda c: c.data == "admin_vip")(check_ultimate)
+check_free_trial = bot.callback_query_handler(lambda c: c.data == "admin_free")(check_free_trial)
 pay_handler = bot.callback_query_handler(lambda c: c.data.startswith("pay_"))(pay_handler)
 admin_pay_handler = bot.callback_query_handler(lambda c: c.data.startswith("admin-pay_"))(admin_pay_handler)
 other_callback_handler = bot.callback_query_handler(lambda c: c.data.startswith("pay-"))(other_callback_handler)

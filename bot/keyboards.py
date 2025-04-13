@@ -70,4 +70,5 @@ ADMIN_PAY.add(pay_accept, pay_decline)
 
 ADMIN = InlineKeyboardMarkup()
 check_vip = InlineKeyboardButton(text="Посмотреть список PRO-пользователей", callback_data="admin_vip")
-ADMIN.add(check_vip)
+check_free_trial = InlineKeyboardButton(text="Посмотреть пользователей с бесплатным доступом", callback_data="admin_free")
+ADMIN.add(check_vip).add(check_free_trial)

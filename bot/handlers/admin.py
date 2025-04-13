@@ -4,8 +4,9 @@ from functools import wraps
 
 from bot import bot
 from bot.models import User
-from bot.utils import get_User
+from bot.utils import get_User, access_time
 from bot.keyboards import ADMIN
+from Transition.settings import CHAT_ID
 
 def admin_permission(func):
     """
@@ -40,4 +41,14 @@ def check_ultimate(call):
     bot.send_message(
         text=text,
         chat_id=call.message.chat.id,
+    )
+
+def check_free_trial(call):
+    free_trial_users = User.objects.filter(is_paid=False)
+    for user in free_trial_users:
+        if bot.get_chat_member(chat_id=CHAT_ID, user_id=int(user.telegram_id)).status == "member":
+            text += f"@{user.username}\n"
+    bot.send_message(
+        text=text,
+        chat_id=call.message.chat.id
     )
