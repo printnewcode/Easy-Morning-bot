@@ -21,10 +21,13 @@ class Command(BaseCommand):
                     bot.ban_chat_member(chat_id=CHAT_ID, user_id=int(user.telegram_id), revoke_messages=False)
                 except Exception as exc_:
                     bot.send_message(chat_id=OWNER_ID, text=exc_)
-                bot.send_message(
-                    chat_id=int(user.telegram_id),
-                    text="Ваш доступ к нашей беседе закончился. Продлите его, оплатив подписку",
-                    reply_markup=START_BUTTONS,
-                )
+                try:
+                    bot.send_message(
+                        chat_id=int(user.telegram_id),
+                        text="Ваш доступ к нашей беседе закончился. Продлите его, оплатив подписку",
+                        reply_markup=START_BUTTONS,
+                    )
+                except:
+                    pass
                 user.is_paid = False
                 user.save()
